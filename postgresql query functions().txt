@@ -1,0 +1,186 @@
+//primary key format
+
+id integer NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 100 CACHE 1 )
+CONSTRAINT tablename_pkey PRIMARY KEY (id)
+
+
+//stored procedures
+create procedure pro(IN _tname text,IN _tage integer, IN _taddress text)
+LANGUAGE plpgsql
+AS $$
+BEGIN
+insert into teacher(tname, tage, taddress)
+values(_tname, _tage, _taddress);
+END
+$$;
+call pro('abc',20,'bangalore');
+
+select * from teacher
+//------------------------------------------------------------
+
+select()
+select * from table
+
+where()
+used to control the query
+select * from table where column1=''"  and column2=''"
+
+Update()
+update table set column1=''"  where column2=''"
+
+And()
+select * from table where column1="" and column2=""
+
+delete()
+delete from table where id between 5 and 7
+
+cast()
+select cast(23.347 as integer)
+
+not in()
+select * from teacher where tname not in ('roshi')
+
+replace()
+update teacher set tname=replace(tname,'abc','xyz')
+
+concat()
+to add 2 stings
+select concat(tname,taddress) as tnameaddress from teacher
+
+having()
+used to fetch data having specific conditions
+select sum(tage) from teacher group by tid having sum(tage)>20
+
+array()
+insert into teacher(tname,tage,taddress) values('steve',26,Array['pune','india'])
+
+count()
+select count(*) from teacher
+
+//----------------------------------------------------
+Aggregate functions()=aggregate functions must be with group by clause
+sum(),min(),max(),avg(),count()
+
+
+sum()
+select sum(column)  from table group by tid
+
+min()
+select min(column) from table group by tid
+
+max()
+select max(column) from table group by tid
+
+avg()
+select avg(column) from table group by tid
+
+count()
+select count(*) as count from table
+
+//------------------------------------------
+
+Offset()
+select * from table offset 2
+
+fetch()
+select column1,column2 from table order by id  fetch first row only
+
+
+Distinct()
+select distinct column 1, column2 from table order by id
+
+
+IN()
+select * from teacher where tage in (22,24)
+select * from teacher where tage IN(select tage from teacher where tage=22)
+
+
+LIKE
+select * from teacher where tname like '%roshi%'
+select * from teacher where tname like 'rosh_'
+
+Limit()
+select * from table limit 10;
+
+Limit() and Offset()
+offset means skip the first rows and fetch last ones
+select * from teacher limit 5 offset 2;
+
+between()
+select * from teacher where tage between '20' and '25' order by tid
+
+NotEqualto(!=)
+select * from teacher where tage between '20' and '26' and tid !=4
+
+
+combining AND OR
+select * from teacher where (tname='roshi' and tage='24') or (taddress='india')
+
+with
+used for chaining statements
+with teacher as(select tname, tage from teacher),
+population as (select male, female from population) select * from population
+
+
+intersect()
+it will combine 2 statements into 1 
+for this both tables should have same column
+select age from teacher intersect select age from student
+
+
+Date functions
+date_trunc()
+select date_trunc('hour',monthyear) from population
+
+date_part()
+select date_part('days',monthyear) from population
+
+age()
+select age(monthyear) from population
+
+
+extract()
+select extract(year from monthyear) as years from population
+select extract(month from monthyear) as years from population
+select extract(day from monthyear) as years from population
+
+now()::date
+select now()::date from table
+
+
+Views in postgres
+where, and , or, like join, group by, order by
+
+Math()
+abs(),floor(),random(),sqrt()
+
+
+DDL(data definition language) in postgres
+create(),alter(),truncate(),drop()
+
+join
+used to join data from multiple tables
+1)cross join
+select column1, column2 from table1 cross join table2
+
+2)inner join
+used to return all rows from multiple tables
+select * from table1,table2 where table1.id=table2.id
+
+3)left join
+will retrive all matching rows from left table and all matching rows from right table, if there is no match then right will have null values
+select columns from table_name1 LEFT OUTER JOIN table_name2 on table_name1.column = table_name2.column;
+
+select * from table1 left join table2 on  table1.tid = table2.id
+
+4)right join
+will retrive all matching rows from left table and all matching rows from right table, if there is no match then left will have null values
+select * from table1 right join table2 on  table1.id = table2.id
+
+5)full join
+retrives all rows from left and right table
+select * from table1 full join table2 on  table1.id = table2.id
+
+ 
+
+
